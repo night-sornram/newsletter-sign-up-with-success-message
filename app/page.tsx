@@ -1,113 +1,124 @@
+"use client"
 import Image from 'next/image'
+import { useState } from 'react'
+const valid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 export default function Home() {
+  const [value,setValue ] = useState("")
+  const [show,setShow] = useState(false)
+  const [complete,setComplete ] = useState(false)
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
+    
+    <div className=' w-screen h-screen flex justify-start items-start md:justify-center md:items-center'>
+      {!complete && (
+        <div className='h-full md:h-auto md:w-fit w-full rounded-none md:rounded-3xl bg-white flex flex-col md:flex-row-reverse '>
+          <div className=' p-5 md:flex hidden w-1/2'>
             <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            src={"/assets/images/illustration-sign-up-desktop.svg"}
+            width={10000}
+            height={10000}
+            className=' object-cover h-full w-full'
+            alt='image'/>
+          </div>
+          <div className=' w-2/2 flex md:hidden'>
+            <Image
+            src={"/assets/images/illustration-sign-up-mobile.svg"}
+            width={10000}
+            height={10000}
+            className=' object-contain h-full w-full'
+            alt='image'/>
+          </div>
+          <div className=' md:bg-transparent bg-white  p-10 md:py-20 md:px-14 md:pr-0 md:pl-14 w-full md:w-1/2 flex flex-col'>
+            <div className=' text-5xl font-bold'>
+              Stay updated!
+            </div>
+            <div className=' mt-5 font-normal'>
+              Join 60,000+ product managers receiving monthly updates on:
+            </div>
+            <div className=' flex flex-col mt-5 space-y-3'>
+              <div className=' flex flex-row'>
+                <Image
+                width={21}
+                height={21}
+                alt='check'
+                src={"/assets/images/icon-list.svg"}/>
+                <div className=' ml-3'>
+                  Product discovery and building what matters
+                </div>
+              </div>
+              <div className=' flex flex-row'>
+                <Image
+                width={21}
+                height={21}
+                alt='check'
+                src={"/assets/images/icon-list.svg"}/>
+                <div className=' ml-3'>
+                  Measuring to ensure updates are a success
+                </div>
+              </div>
+              <div className=' flex flex-row'>
+                <Image
+                width={21}
+                height={21}
+                alt='check'
+                src={"/assets/images/icon-list.svg"}/>
+                <div className=' ml-3'>
+                  And much more!
+                </div>
+              </div>
+              
+            </div>
+
+            <div className=' flex flex-col mt-10'>
+              <div className=' flex flex-row justify-between'>
+                <div className=' text-xs font-bold'>
+                  Email address
+                </div>
+                <div className={show ? "s" : "u"}>
+                  Valid email required
+                </div>
+              </div>
+              <input type="email" value={value} onChange={(e)=>{setValue(e.currentTarget.value)}} placeholder='email@company.com'  className={ show ? "e" : "n"}/>
+            </div>
+
+            <button onClick={()=>{
+              !value.match(valid) ? setShow(true) : setShow(false)
+              value.match(valid) ? setComplete(true) : setComplete(false)
+            }} className=' bg-custom-200 text-white p-3 mt-5 rounded-lg  hover:shadow-lg hover:shadow-rose-500/50  hover:bg-gradient-to-r hover:from-rose-500 hover:to-orange-500'>
+              Subscribe to monthly newsletter
+            </button>
+
+          </div>
+          
+      </div>
+
+      )}
+      {complete && (
+        <div className=' py-40 md:py-10 px-7 md:px-14 w-full md:h-auto h-full  md:w-min flex flex-col bg-white rounded-none relative md:rounded-3xl'>
+          <div className=' '>
+            <Image
+            width={64}
+            height={64}
+            alt='success'
+            src={"/assets/images/icon-success.svg"}/>
+          </div>
+          <div className=' mt-7  text-custom-200 text-5xl font-bold'>
+            Thanks for subscribing!
+          </div>
+          <div className=' mt-7  text-sm text-custom-200'>
+            A confirmation email has been sent to <span className='font-bold'>ash@loremcompany.com</span>. Please open it and click the button inside to confirm your subscription
+          </div>
+          <div className=' absolute md:static flex justify-center items-center w-full mt-5 bottom-5 right-0'>
+            <button onClick={()=>{
+              setValue("")
+              setComplete(false)}} className=' bg-custom-200  p-3 w-10/12 md:w-full text-white  rounded-lg  hover:shadow-lg hover:shadow-rose-500/50  hover:bg-gradient-to-r hover:from-rose-500 hover:to-orange-500'>
+              Dismiss message
+            </button>
+          </div>
+          
         </div>
-      </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+      )}
+      
+    </div>
+  )}
